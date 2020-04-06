@@ -1,24 +1,49 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Como esse projeto foi criado, executando os seguintes comandos:
 
-Things you may want to cover:
+* docker run --rm --user "$(id -u):$(id -g)" -v $(pwd):/usr/src -w /usr/src -ti ruby:2.5.1 bash
+* gem install rails -v 5.2
+* rails new OneBitExchange --database=postgresql --skip-bundle
+* exit
+* cd OneBitExchange
+* docker-compose build
 
-* Ruby version
+## Para criar db, migrações e rodar o projeto.
 
-* System dependencies
+* docker-compose run --rm app bundle install
+* docker-compose run --rm app bundle exec rails db:create db:migrate
+* docker-compose up
 
-* Configuration
+## Para logar na máquina docker
+* docker-compose run --rm app bash
 
-* Database creation
+## Para editar o arquivo credencial
+* EDITOR=nano bundle exec rails credentials:edit
 
-* Database initialization
+## Para instalar jQuery e Bootstrap via yarn
+* docker-compose run --rm app bundle exec yarn add jquery
+* docker-compose run --rm app bundle exec yarn add bootstrap
 
-* How to run the test suite
+## Para consertar problema de permissão do docker
+* sudo chown $USER:$USER -R .
 
-* Services (job queues, cache servers, search engines, etc.)
+## Para realizar testes rspec
+* docker-compose run --rm app bundle exec rspec spec/services/exchange_service_spec.rb
+* docker-compose run --rm app bundle exec rspec spec/requests/exchanges_spec.rb
+* docker-compose run --rm app bundle exec rspec spec/system/exchanges_index_system_spec.rb
 
-* Deployment instructions
+## Para acessar o console
+* docker-compose run --rm app bundle exec rails c
 
-* ...
+## Para criar controller com actions
+* docker-compose run --rm app bundle exec rails g controller Exchanges index convert --no-controller-specs
+
+## Para gerar testes com rspec
+* docker-compose run --rm app bundle exec rails g rspec:request exchanges
+
+## Para testar via browser chamada API
+* http://localhost:3000/convert?source_currency=BRL&target_currency=EUR&amount=10
+
+## Para deploy
+* Efetuar commit no repositório.
